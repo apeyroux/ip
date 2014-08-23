@@ -20,7 +20,7 @@ var (
 )
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
-	remote := strings.Split(r.Host, ":")
+	remote := strings.Split(r.RemoteAddr, ":")
 	names, err := net.LookupAddr(remote[0])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -34,6 +34,7 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf("%s %v", rHost.Ip, rHost.Names)
 	fmt.Fprintf(w, "%s", rJson)
+	return
 }
 
 func main() {
